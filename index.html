@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js</title>
+    <style>
+body{
+    box-sizing: border-box;
+}
+
+.head{
+    background-color: rgb(0, 132, 255);
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+h1{
+    font-size: 30px;
+    margin: 10px;
+}
+h2{
+    margin: 10px;
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+    
+    width: 100%;
+    margin: 0 auto;
+padding: 10px;
+    text-align: center;
+
+
+}
+button{
+    padding: 5px;
+    border: none;
+    color: rgb(0, 132, 255);
+    font-weight: bold;
+    
+}
+.main{
+    background-color: rgb(42, 40, 40);
+    width: 100%;
+    height: 1000px;
+    
+}
+.squares{
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+    width: 100%;
+max-width: 360px;
+}
+.square{
+    width: 90px;
+    height: 90px;
+    
+    border-radius: 10px;
+    margin: 10px;
+}
+
+</style>
+</head>
+<body>
+<div class="head">
+<h2>THE GREAT</h2>
+<h1>RGB</h1>
+<h2>COLOR GAME</h2>
+
+</div>
+<div class="buttons">
+    <div><button class="new" onclick="reseter()">NEW COLORS</button>
+        </div>
+        <span class="message"></span>
+    <div><button class="easy" onclick="easyGame()">EASY</button>
+        
+    <button class="hard" onclick="hardGame()">HARD</button></div>
+
+</div>
+<div class="main">
+    <div class="squares">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+</div>
+</div>
+    
+
+    <script>
+let squares = document.querySelectorAll('.square');
+let h1 = document.querySelector('h1');
+let head = document.querySelector('.head');
+let newGame = document.querySelector('.new');
+let hard = document.querySelector(".hard");
+let easy = document.querySelector('.easy');
+let message = document.querySelector(".message");
+
+function rgbGenerator() {
+    let r = Math.round(Math.random() * 255);
+    let g = Math.round(Math.random() * 255);
+    let b = Math.round(Math.random() * 255);
+    return `rgb(${r}, ${g}, ${b})`
+}
+
+let gameMode = "hard"
+hardGame()
+
+function hardGame() {
+    h1.innerHTML = rgbGenerator()
+    
+    squares.forEach(square => {
+        square.style.backgroundColor = rgbGenerator()
+        square.style.display = "block"
+    })
+    
+    let random = Math.round(Math.random() * 5);
+    squares[random].style.backgroundColor = h1.innerHTML;
+    gameMode = "hard"
+
+head.style.backgroundColor = "rgb(0, 132, 255)";
+    newGame.innerHTML = "NEW GAME";
+message.innerHTML = "";
+
+
+}
+
+function easyGame() {
+    h1.innerHTML = rgbGenerator();
+    
+    squares.forEach(square => square.style.backgroundColor = rgbGenerator());
+    squares[3].style.display = "none";
+    squares[4].style.display = "none";
+    squares[5].style.display = "none";
+    
+    let random = Math.round(Math.random() * 2);
+    squares[random].style.backgroundColor = h1.innerHTML;
+    
+    gameMode = "easy";
+
+
+head.style.backgroundColor = "rgb(0, 132, 255)";
+    newGame.innerHTML = "NEW GAME";
+message.innerHTML = "";
+
+}
+
+function gameLogic() {
+    squares.forEach(square => {
+        square.addEventListener('click', function(){
+
+           if(square.style.backgroundColor === h1.innerHTML){
+                squares.forEach(square => square.style.backgroundColor = h1.innerHTML);
+                head.style.backgroundColor = h1.innerHTML;
+                newGame.style.display = "block";
+message.innerHTML = "Correct!";
+newGame.innerHTML = "Play again?";
+
+
+            } else {
+                square.style.backgroundColor ="transparent";
+message.innerHTML = "Try again"
+            }
+        });
+    });
+}
+
+function reseter() {
+    if (gameMode == "hard") {
+        hardGame();
+    } else {
+        easyGame();
+    }
+    
+    head.style.backgroundColor = "rgb(0, 132, 255)";
+    newGame.innerHTML = "NEW GAME";
+message.innerHTML = "";
+}
+
+gameLogic(); 
+
+
+
+
+</script>
+</body>
+</html>
